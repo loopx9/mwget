@@ -20,7 +20,8 @@
 
 #include <cassert>
 #include <iostream>
-
+#include <vector>
+#include <string>
 #include "http.h"
 #include "url.h"
 #include "utils.h"
@@ -29,6 +30,7 @@
 #include "debug.h"
 
 using namespace std;
+
 
 int
 HttpPlugin::get_info(Task *task)
@@ -52,6 +54,23 @@ HttpPlugin::get_info(Task *task)
 		http.header("Referer", task->get_referer());
 	}else{
 		http.header("Referer", task->url.get_url());
+	}
+    
+	if(task->get_headers().size()>0){
+        
+    vector<string> headers = task->get_headers();
+    
+    for (int i=0; i < headers.size();i++)
+    {
+
+    char *header = const_cast<char*>(headers[i].c_str());
+    const char *hName = strtok(header, ":");
+    const char *hValue = strtok(NULL, ":");
+    if (hName!=NULL && hValue!=NULL) http.header(hName, hValue);
+    
+    }
+    
+    
 	}
 
 	if(task->fileSize > 0){
@@ -163,6 +182,9 @@ HttpPlugin::get_info(Task *task)
 	return 0;
 };
 
+
+
+
 int
 HttpPlugin::download(Task& task, Block *block)
 {
@@ -204,6 +226,25 @@ HttpPlugin::download(Task& task, Block *block)
 		http.header("Referer", task.url.get_url());
 	}
 
+    
+	if(task.get_headers().size()>0){
+        
+    vector<string> headers = task.get_headers();
+    
+    for (int i=0; i < headers.size();i++)
+    {
+
+    char *header = const_cast<char*>(headers[i].c_str());
+    const char *hName = strtok(header, ":");
+    const char *hValue = strtok(NULL, ":");
+    if (hName!=NULL && hValue!=NULL) http.header(hName, hValue);
+    
+    }
+    
+    
+	}
+        
+    
 	if(task.proxy.get_type() == HTTP_PROXY){
 		if(http.connect(task.proxy.get_host(), task.proxy.get_port()) < 0){
 			return -2;

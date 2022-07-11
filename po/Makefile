@@ -36,8 +36,8 @@ libdir = ${exec_prefix}/lib
 DATADIRNAME = share
 itlocaledir = $(prefix)/$(DATADIRNAME)/locale
 subdir = po
-install_sh = ${SHELL} /home/work/xuchao08/wikidata/wgetWikidataTest/temp/mwget_0.1.0.orig/install-sh
-# Automake >= 1.8 provides /bin/mkdir -p.
+install_sh = ${SHELL} /var/tmp/mwget-master/install-sh
+# Automake >= 1.8 provides /usr/bin/mkdir -p.
 # Until it can be supposed, use the safe fallback:
 mkdir_p = $(install_sh) -d
 
@@ -47,8 +47,8 @@ INSTALL_DATA = ${INSTALL} -m 644
 GMSGFMT = /usr/bin/msgfmt
 MSGFMT = /usr/bin/msgfmt
 XGETTEXT = /usr/bin/xgettext
-INTLTOOL_UPDATE = /usr/local/bin/intltool-update
-INTLTOOL_EXTRACT = /usr/local/bin/intltool-extract
+INTLTOOL_UPDATE = /usr/bin/intltool-update
+INTLTOOL_EXTRACT = /usr/bin/intltool-extract
 MSGMERGE = INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT) srcdir=$(srcdir) $(INTLTOOL_UPDATE) --gettext-package $(GETTEXT_PACKAGE) --dist
 GENPOT   = INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT) srcdir=$(srcdir) $(INTLTOOL_UPDATE) --gettext-package $(GETTEXT_PACKAGE) --pot
 

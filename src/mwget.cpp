@@ -44,6 +44,7 @@ print_help()
 	cout<<_("  -d,  --directory=dir  Set the local direcotry to [dir], the default is \".\"")<<endl;
 	cout<<_("  -f,  --file=file      Rename the file to [file]")<<endl;
 	cout<<_("  -h,  --help           A brief summary of all the options")<<endl;
+    cout<<_("  -H,  --header         Add a HTTP Header. eg: -H 'Cookie: user=admin'")<<endl;
 	cout<<_("  -i,  --interval=num   Set the ftp retry interval to [num] seconds, the default is \"5\"")<<endl;
 	cout<<_("  -n,  --number=num     Use [num] connections instead of the default (4)")<<endl;
 	cout<<_("  -r,  --referer=URL    Include `Referer: [URL]\' header in HTTP request.")<<endl;
@@ -100,19 +101,19 @@ const struct option long_options [] = {
 	{"timeout", 1, NULL, 't'},
 	{"version", 0, NULL, 'v'},
 	{"proxy", 1, NULL, 'x'},
+	{"header", 1, NULL, 'H'},
 	//{"moo", 1, NULL, 'm'},
 	{NULL, 0, NULL, 0}
 };
 
-char short_options [] = "bc:d:f:hi:n:r:t:vx:";
+char short_options [] = "bc:d:f:hi:n:r:H:t:vx:";
 
 int
 main(int argc, char **argv)
 {
 	int ret;
 	URL url;
-    // here,crontab报错
-    Downloader downloader;
+	Downloader downloader;
 	Task task;
 	Proxy proxy;
 	char *ptr = NULL;
@@ -127,6 +128,7 @@ main(int argc, char **argv)
 	SSL_load_error_strings();
 	SSLeay_add_ssl_algorithms();
 #endif
+	
 	while(1){
 		int option_index = 0;
 		//if(argv[1]=="moo")
@@ -165,6 +167,9 @@ main(int argc, char **argv)
 			case 'r':
 				task.set_referer(optarg);
 				break;
+			case 'H':
+				task.set_header(optarg);
+				break;
 			case 't':
 				task.timeout = atoi(optarg);
 				break;
@@ -185,6 +190,7 @@ main(int argc, char **argv)
 				return -1;
 		}
 	}
+	
 	if(ptr == NULL){
 		ptr = StrDup(getenv("proxy"));
 	}
@@ -208,6 +214,7 @@ main(int argc, char **argv)
 		task.proxy = proxy;
 	}
 
+	
 	if(optind >= argc){
 		//print_help();
 		print_missing();

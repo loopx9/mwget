@@ -24,6 +24,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+
+#include <vector>
+#include <string>
+using namespace std;
+
 #include "macro.h"
 #include "url.h"
 #include "proxy.h"
@@ -38,9 +43,11 @@ class Task
 		const char* get_local_dir(void);
 		const char* get_local_file(void);
 		const char* get_referer(void);
+        vector<string> get_headers(void);
 		void set_local_dir(const char *dir);
 		void set_local_file(const char *file);
 		void set_referer(const char *referer);
+        void set_header(const char *header);
 		Task& operator = (Task& task);
 
 	public:
@@ -59,6 +66,7 @@ class Task
 		char *localDir;
 		char *localFile;
 		char *referer;
+        vector<string> headers;
 };
 
 #endif // _TASK_H

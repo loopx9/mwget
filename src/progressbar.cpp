@@ -17,7 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <iostream>
+
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -58,15 +58,13 @@ ProgressBar::ProgressBar(off_t total_size, int block_num)
 	}
 	lastTime = get_current_time();
 
-    // crontab run, term is none
 	term = getenv("TERM");
-	//if(strcasecmp(term, "emacs") == 0 || !isatty(fileno(stderr))){
+	if(strcasecmp(term, "emacs") == 0 || !isatty(fileno(stderr))){
 		// can not show the progress bar in these condition
-		//show = false;
-	//}else{
-		//show = true;
-	//}
-    show = true;
+		show = false;
+	}else{
+		show = true;
+	}
 
 	screenWidth = determine_screen_width();
 	if(screenWidth == 0){

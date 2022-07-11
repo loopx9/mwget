@@ -34,6 +34,8 @@ Task::Task()
 	localDir = NULL;
 	localFile = NULL;
 	referer = NULL;
+    //headers.clear();
+
 };
 
 Task::~Task()
@@ -41,6 +43,7 @@ Task::~Task()
 	delete[] localDir;
 	delete[] localFile;
 	delete[] referer;
+    //headers.clear();
 };
 
 Task&
@@ -51,9 +54,11 @@ Task::operator = (Task& task)
 	delete[] localDir;
 	delete[] localFile;
 	delete[] referer;
+    //headers.clear();
 	localDir = StrDup(task.get_local_dir());
 	localFile = StrDup(task.get_local_file());
 	referer = StrDup(task.get_referer());
+    headers = task.get_headers();
 	fileSize = task.fileSize;
 	isDirectory = task.isDirectory;
 	resumeSupported = task.resumeSupported;
@@ -86,6 +91,13 @@ Task::get_referer(void)
 	return referer;
 };
 
+vector<string>
+Task::get_headers(void)
+{
+	return headers;
+};
+
+
 void
 Task::set_local_dir(const char *dir)
 {
@@ -105,4 +117,12 @@ Task::set_referer(const char *referer)
 {
 	delete[] this->referer;
 	this->referer = StrDup(referer);
+};
+
+
+void
+Task::set_header(const char *header)
+{
+	
+	this->headers.push_back(header);
 };
